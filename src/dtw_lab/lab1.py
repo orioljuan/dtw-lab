@@ -128,6 +128,17 @@ def calculate_statistic(
     else:
         raise ValueError("Invalid measure. Choose 'mean', 'median', or 'mode'.")
 
+def clean_data(df:pd.DataFrame) -> pd.DataFrame:
 
+# Drop nulls
+df = df.dropna ()
+# Drop unuseful columns
+df = df.drop( columns =[' S e r i a l _ N u m b e r ',' V o l t a g e _ C u t o f f',' N o m i n a l _ V o l t a g e' ])
+# Remove outliers
+df = df [( df [' A v g _ O p e r a t i n g _ T e m p e r a t u r e'] <= 100) ]
+df = df [ ( df [' D a y s _ S i n c e _ P r o d u c t i o n'] <= 20000) ]
+df = df [( df [' C u r r e n t _ V o l t a g e'] >= 0.5) & ( df ['C u r r e n t _ V o l t a g e'] <= 2) ]
+df = df [ df [' B a t t e r y _ S i z e'] !='9 - Volt ']
+return df
 
 
